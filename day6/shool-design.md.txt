@@ -1,0 +1,22 @@
+# School Database System Design
+
+## Table Explanations
+
+- **`students`**: Stores individual student profile details. Each student has a unique auto-incrementing ID (`student_id`), first and last names, and a unique email address to prevent duplicate registrations.
+- **`courses`**: Stores available academic courses offered by the institution. Each course includes a unique ID (`course_id`), a course name, and credit value.
+- **`enrolments`**: A junction table designed to bridge the many-to-many relationship between students and courses. It tracks which student is enrolled in which course and stores their academic grade for that specific enrolment.
+
+## Relationships & Join Table Justification
+
+- **`students` to `enrolments` (One-to-Many):** One student can have multiple enrolment records over time, but each individual enrolment record belongs to exactly one student.
+- **`courses` to `enrolments` (One-to-Many):** One course can have many student enrolments, but each enrolment record references only one specific course.
+- **Why a Join Table (`enrolments`) is needed:** Students and courses share a **Many-to-Many** relationship (one student can take many courses, and one course can have many students). Relational databases cannot store lists inside a single column efficiently while maintaining normalization. The join table resolves this by breaking the relationship down into two clean one-to-many relationships and allows us to store relationship-specific attributes—such as the `grade` earned—and enforce constraints like preventing duplicate enrolments.
+
+## Indexing
+
+- **Index to Add:** `CREATE INDEX idx_enrolments_student ON enrolments(student_id);`
+- **Reason:** As the school grows, lookups searching for all courses taken by a specific student or verifying student enrolment history will require frequent filtering and joining on `student_id`. Adding an index on this foreign key speeds up query performance significantly by avoiding full table scans.
+
+## SQL vs. NoSQL Justification
+
+For a school management system tracking students, courses, and grades, **SQL (Relational Database)** is the ideal choice. Academic data is highly structured, deeply interconnected, and relies heavily on strict consistency (ACID compliance)—such as making sure a student cannot enrol in a non-existent course, ensuring emails remain unique, and keeping grades securely tied to specific student-course pairs. NoSQL databases excel at unstructured data, rapid horizontal scaling, or dynamic schemas, but lack the powerful constraint-checking, foreign key integrity, and relational joining capabilities that a scholastic database inherently requires.
