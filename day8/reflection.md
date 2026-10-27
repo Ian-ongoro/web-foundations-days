@@ -1,0 +1,7 @@
+# Reflection
+
+The most difficult concept in the course was designing for concurrency: understanding how two customers can request the same seat at nearly the same time, and why checking availability in the browser is not enough. I overcame this by breaking the process into smaller steps and tracing what happens when requests overlap. I learned that the server and database must make the decision atomically, using transactions, conditional updates, and constraints. I also considered what happens when a reservation expires or a payment notification is delivered twice.
+
+Based on the feedback I received on my capstone, I would improve the explanation and testing evidence for the busiest user journeys. I would make the architecture diagram easier to follow, connect each requirement to the component responsible for it, and include clearer examples of error states. I would also add load-test results rather than relying only on estimates, and test the design with simultaneous seat requests, expired reservations, and repeated payment callbacks. *(Replace this sentence with the specific feedback you received if it was different.)*
+
+Next, I will learn more about deploying web applications, automated testing, and performance testing. I want to practise using a real database transaction to protect seat inventory and learn how monitoring tools help identify bottlenecks under load. I will also study accessibility and security testing so that the finished product is not only fast, but safe and usable for different customers.
